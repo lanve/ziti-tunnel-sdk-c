@@ -1138,11 +1138,6 @@ static tunneler_context initialize_tunneler(netif_driver tun, uv_loop_t* ziti_lo
 
 static CommandLine main_cmd;
 static void usage(int argc, char *argv[]) {
-    printf("Please check the internal documentation.\n");
-    return;
-    /*
-    不显示任何帮助信息
-    */
     if (argc == 0) {
         commandline_print_usage(&main_cmd, stdout);
         return;
