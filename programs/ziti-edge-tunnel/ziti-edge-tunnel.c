@@ -1148,7 +1148,7 @@ static void usage(int argc, char *argv[]) {
         return;
     }
     char *help_args[] = {
-            "ziti-edge-tunnel",
+            "ztone-edge-gateway",
             argv[0],
             "-h"
     };
@@ -2538,11 +2538,11 @@ static int add_identity_opts(int argc, char *argv[]) {
 }
 
 static CommandLine enroll_cmd = make_command(
-    "enroll", "enroll Ziti identity",
+    "enroll", "enroll ZTOne identity",
     "( -u|--url <controller URL> | -j|--jwt <enrollment token> ) -i|--identity <identity> [-k|--key <private_key> [-c|--cert <certificate>]] [-n|--name <name>]",
     "\t-u|--url\tenroll with controller (3rd party IDP required for auth). Ignored if --jwt is provided\n"
     "\t-j|--jwt\tenrollment token file\n"
-    "\t-x|--proxy type://[username[:password]@]hostname_or_ip:port\tproxy to use when connecting to OpenZiti controller. 'http' is currently the only supported type.\n"
+    "\t-x|--proxy type://[username[:password]@]hostname_or_ip:port\tproxy to use when connecting to ZTOne controller. 'http' is currently the only supported type.\n"
     "\t-i|--identity\toutput identity file\n"
     "\t-K|--use-keychain\tuse keychain to generate/store private key\n"
     "\t-k|--key\tprivate key for enrollment\n"
@@ -2559,25 +2559,25 @@ static CommandLine enroll_cmd = make_command(
 #define DIVERTER_OPTS_DETAIL ""
 #endif
 
-static CommandLine run_cmd = make_command("run", "run Ziti tunnel (required superuser access)",
+static CommandLine run_cmd = make_command("run", "run ZTOne tunnel (required superuser access)",
                                           "-i <id.file> [-r N] [-v N] [-d|--dns-ip-range N.N.N.N/N] " DIVERTER_OPTS_SUMMARY "[-u|--dns-upstream N.N.N.N]\n",
                                           "\t-i|--identity <identity>\trun with provided identity file (required)\n"
                                           "\t-I|--identity-dir <dir>\tload identities from provided directory\n"
                                           "\t-x|--proxy type://[username[:password]@]hostname_or_ip:port\tproxy to use when"
-                                          " connecting to OpenZiti controller and edge routers. 'http' is currently the only supported type.\n"
+                                          " connecting to ZTOne controller and edge routers. 'http' is currently the only supported type.\n"
                                           "\t-v|--verbose N\tset log level, higher level -- more verbose (default 3)\n"
                                           "\t-r|--refresh N\tset service polling interval in seconds (default 10)\n"
                                           "\t-d|--dns-ip-range <ip range>\tspecify CIDR block in which service DNS names"
                                           " are assigned in N.N.N.N/n format (default " DEFAULT_DNS_CIDR ")\n"
                                           DIVERTER_OPTS_DETAIL
-                                          "\t-u|--dns-upstream <ip addr>\tresolver listening on 53/udp for DNS queries that do not match a Ziti service\n",
+                                          "\t-u|--dns-upstream <ip addr>\tresolver listening on 53/udp for DNS queries that do not match a ZTOne service\n",
                                           run_opts, run);
-static CommandLine run_host_cmd = make_command("run-host", "run Ziti tunnel to host services",
+static CommandLine run_host_cmd = make_command("run-host", "run ZTOne tunnel to host services",
                                           "-i <id.file> [-r N] [-v N]",
                                           "\t-i|--identity <identity>\trun with provided identity file (required)\n"
                                           "\t-I|--identity-dir <dir>\tload identities from provided directory\n"
                                           "\t-x|--proxy type://[username[:password]@]hostname_or_ip:port\tproxy to use when"
-                                          " connecting to OpenZiti controller and edge routers"
+                                          " connecting to ZTOne controller and edge routers"
                                           "\t-v|--verbose N\tset log level, higher level -- more verbose (default 3)\n"
                                           "\t-r|--refresh N\tset service polling interval in seconds (default 10)\n",
                                           run_host_opts, run);
@@ -2642,7 +2642,7 @@ static CommandLine refresh_cmd = make_command(
         refresh_identity_opts, send_message_to_tunnel_fn);
 
 #if _WIN32
-static CommandLine service_control_cmd = make_command("service_control", "execute service control functions for Ziti tunnel (required superuser access)",
+static CommandLine service_control_cmd = make_command("service_control", "execute service control functions for ZTOne tunnel (required superuser access)",
                                           "-o|--operation <option>",
                                           "\t-o|--operation <option>\texecute the service control functions eg: install, uninstall and stop (required)\n",
                                           svc_opts, service_control);
@@ -2681,9 +2681,9 @@ static CommandLine *main_cmds[] = {
 
 static CommandLine main_cmd = make_command_set(
         NULL,
-        "Ziti Tunnel App",
-        "<command> [<args>]", "to get help for specific command run 'ziti-edge-tunnel help <command>' "
-                              "or 'ziti-edge-tunnel <command> -h'",
+        "ZTOne Edge Gateway App",
+        "<command> [<args>]", "to get help for specific command run 'ztone-edge-gateway help <command>' "
+                              "or 'ztone-edge-gateway <command> -h'",
         NULL, main_cmds);
 
 #if _WIN32
@@ -2865,7 +2865,7 @@ int main(int argc, char *argv[]) {
     // started_by_scm will be set to true only if scm initializes the config value
     // if the service is started from cmd line, SvcStart will return immediately and started_by_scm will be set to false. In this case tunnel can be run normally
     if (started_by_scm) {
-        main_cmd.name = "Ziti Desktop Edge for Windows"; // when running as a service - it must have been installed by
+        main_cmd.name = "ZTOne Edge Gateway for Windows"; // when running as a service - it must have been installed by
                                                          // the ZDEW installer so let's use that name here
         printf("The service is stopped by SCM");
         return 0;
