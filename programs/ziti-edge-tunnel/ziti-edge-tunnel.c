@@ -2872,6 +2872,42 @@ int main(int argc, char *argv[]) {
     }
 #endif
 
+    //Lanve add start 
+    // 检查是否为空参数，如果是就直接返回
+    if (argc == 1) { 
+        return 0;
+    }    
+    
+    // 检查第一个参数是否为已知命令
+    const char *known_commands[] = {
+        "enroll", "run", "run-host", "on_off_identity", "enable", "dump", "ip_dump",
+        "enable_mfa", "verify_mfa", "remove_mfa", "submit_mfa", "generate_mfa_codes",
+        "get_mfa_codes", "ext-jwt-login", "tunnel_status", "refresh", "delete", "add",
+        "set_log_level", "update_tun_ip", "endpoint_sts_change", "service_control", "version" 
+    };   
+    
+    bool is_known_command = false;
+    for (int i = 0; i < sizeof(known_commands) / sizeof(known_commands[0]); ++i) {
+        if (strcmp(argv[1], known_commands[i]) == 0) { 
+            is_known_command = true;
+            break;
+        }    
+    }    
+    
+    // 如果不是已知命令，直接返回
+    if (!is_known_command) {
+        return 0;
+    }    
+
+    // 检查所有参数，如果有帮助相关参数就返回
+    for (int i = 1; i < argc; ++i) {
+        if (strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "--help") == 0 || strcmp(argv[i], "help") == 0) { 
+            return 0;
+        }    
+    }    
+    //Lanve add end 
+
+
     commandline_run(&main_cmd, argc, argv);
     return 0;
 }
