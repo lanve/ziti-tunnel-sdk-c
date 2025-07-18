@@ -924,11 +924,11 @@ static int run_tunnel_host_mode(uv_loop_t *ziti_loop) {
 static int make_socket_path(uv_loop_t *loop) {
 
 #if defined(SOCKET_PATH)
-#define ZITI_GRNAME "ziti"
+#define ZITI_GRNAME "ztone"
     uv_fs_t req;
     int rc;
 
-    // set effective group to "ziti"
+    // set effective group to "ztone"
     struct group *ziti_grp = getgrnam(ZITI_GRNAME);
     if (!ziti_grp) {
         ZITI_LOG(WARN, "local '%s' group not found.", ZITI_GRNAME);
