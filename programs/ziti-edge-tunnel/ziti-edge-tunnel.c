@@ -151,9 +151,9 @@ static char eventsockfile[] = "\\\\.\\pipe\\ziti-edge-tunnel-event.sock";
 #elif __unix__ || unix || ( __APPLE__ && __MACH__ )
 #include <grp.h>
 #include <sys/un.h>
-#define SOCKET_PATH "/tmp/.ziti"
-static char sockfile[] = SOCKET_PATH "/ziti-edge-tunnel.sock";
-static char eventsockfile[] = SOCKET_PATH "/ziti-edge-tunnel-event.sock";
+#define SOCKET_PATH "/tmp/.ztone"
+static char sockfile[] = SOCKET_PATH "/ztone-edge-core.sock";
+static char eventsockfile[] = SOCKET_PATH "/ztone-edge-core-event.sock";
 #endif
 
 extern int start_cmd_socket(uv_loop_t *l, const char *sockfile);
